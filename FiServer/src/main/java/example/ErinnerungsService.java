@@ -1,12 +1,17 @@
 package example;
 
+import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.*;
+import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +20,24 @@ import java.util.logging.Logger;
 public class ErinnerungsService extends Application implements  Erinnerung {
     public static final Logger logger = Logger.getLogger(ErinnerungsService.class.getCanonicalName());
     public static final HashMap<String, ErinnerungBean> hash = new HashMap<String, ErinnerungBean>();
+
+    private static ExecutorService executor = Executors.newFixedThreadPool(5);
+
+    @GET
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("async")
+    @Override
+    public void erinnerungSuchen(String id, AsyncResponse ar) {
+        executor.execute(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                // ignore this
+            }
+            String json = JsonbBuilder.create().toJson(findeErinnerung(id));
+            ar.resume(Response.ok(json, MediaType.APPLICATION_JSON).build());
+        });
+    }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
@@ -75,6 +98,10 @@ public class ErinnerungsService extends Application implements  Erinnerung {
         }
     }
 
+    private ErinnerungBean findeErinnerung(String id) {
+        logger.log(Level.INFO,"Suche Erinnerung: {0}", id);
+        return hash.get(id);
+    }
 
     private void loescheErinnerung(String id) {
         hash.remove(id);

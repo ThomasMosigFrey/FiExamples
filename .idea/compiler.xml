@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="FiServer" />
-        <module name="FiClient" />
         <module name="FiCommon" />
+        <module name="FiClient" />
+        <module name="FiAsyncClient" />
       </profile>
     </annotationProcessing>
   </component>

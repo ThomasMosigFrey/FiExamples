@@ -11,6 +11,7 @@
         <module>FiClient</module>
         <module>FiServer</module>
         <module>FiCommon</module>
+        <module>FiAsyncClient</module>
     </modules>
     <packaging>pom</packaging>
 

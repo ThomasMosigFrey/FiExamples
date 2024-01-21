@@ -20,8 +20,8 @@
 
     <distributionManagement>
         <repository>
-            <id>my-repo-id</id>
-            <url>https://my-nexus-repo-address.com</url>
+            <id>internal.repo</id>
+            <url>http://10.10.60.55:8081/repository/maven-snapshots</url>
         </repository>
     </distributionManagement>
     <build>

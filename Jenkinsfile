@@ -11,7 +11,7 @@ pipeline {
         stage ('deploy') {
             steps {
                 withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f',  maven: 'maven393', mavenSettingsConfig: '', traceability: true) {
-                    sh "mvn deploy:deploy -DskipTests"
+                    sh "mvn deploy -DskipTests"
                 }
             }
         }

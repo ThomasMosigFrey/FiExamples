@@ -1,10 +1,10 @@
 pipeline {
     agent {
-        docker {
-            image 'maven:3.9.6-amazoncorretto-8-al2023'
+        #docker {
+        #    image 'maven:3.9.6-amazoncorretto-8-al2023'
             label 'linux'
-            args  '-v /tmp:/tmp -v $HOME/.m2:/.m2'
-        }
+        #    args  '-v /tmp:/tmp -v $HOME/.m2:/.m2'
+        #}
     }
     stages {
         stage ('compile/test') {

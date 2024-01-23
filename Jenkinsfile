@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'redhat/ubi8'
+            image 'maven'
             label 'linux'
             args  '-v /tmp:/tmp'
         }

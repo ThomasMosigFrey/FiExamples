@@ -17,7 +17,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <encoding>UTF-8</encoding>
     </properties>
-<distributionManagement>
+    <distributionManagement>
         <repository>
             <id>internal.repo</id>
             <url>http://10.10.60.55:8081/repository/maven-snapshots</url>

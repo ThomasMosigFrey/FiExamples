@@ -1,10 +1,11 @@
 pipeline {
-    docker {
-        image 'redhat/ubi8'
-        label 'linux'
-        args  '-v /tmp:/tmp'
+    agent {
+        docker {
+            image 'redhat/ubi8'
+            label 'linux'
+            args  '-v /tmp:/tmp'
+        }
     }
-    agent { label "linux" }
     stages {
         stage ('compile/test') {
             steps {

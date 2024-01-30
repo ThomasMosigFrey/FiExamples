@@ -1,0 +1,69 @@
+pipeline {
+    agent {
+        label 'linux'
+    }
+
+    triggers {
+      pollSCM '* * * * *'
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'dev', description: 'Which branch should I build?')
+    }
+
+    options {
+        timestamps()
+        disableConcurrentBuilds(abortPrevious: true)
+        timeout(time: 1, unit: 'HOURS')
+    }
+
+
+    environment {
+        USERTOKEN = credentials('99d52bea-07cd-4679-8820-0afafeba8890')
+    }
+
+    stages {
+        stage('build dev JeeExamples') {
+            steps {
+
+                sh "echo $USERTOKEN"
+
+                // checkout
+                //checkout scmGit(branches: [[name: '*/'+params.BRANCH]], extensions: [], userRemoteConfigs: [[credentialsId: '31e84b3b-289f-49b3-a4ac-c96c8d504138', url: 'https://github.com/ThomasMosigFrey/JeeExamples.git']])
+
+                // build
+                //withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
+                //    sh "mvn clean install"
+                //}
+
+                // save artifact in nexus
+                //nexusArtifactUploader artifacts: [[artifactId: 'ejb', classifier: 'jar', file: 'ejb/target/ejb.jar', type: 'maven']], credentialsId: 'ff14fbff-2a2b-4999-9979-1e31dbdf2786', groupId: 'Test', nexusUrl: '62.91.28.220:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '111-SNAPSHOT'
+
+            }
+        }
+    }
+
+    post {
+        aborted {
+            // Email senden
+            script {
+                try {
+                    echo "email sent"
+                    throw new Exception()
+                } catch(Exception e) {
+                    e.printStackTrace()
+                } finally {
+                    echo "noch mal gut gegangen, ... oder nicht?"
+                }
+            }
+        }
+        success {
+            // clean ws
+            cleanWs notFailBuild: true
+        }
+        failure {
+            // Log Files an server senden
+            echo "log files transmitted"
+        }
+    }
+}

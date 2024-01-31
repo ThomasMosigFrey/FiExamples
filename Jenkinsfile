@@ -3,14 +3,6 @@ pipeline {
         label 'linux'
     }
 
-    triggers {
-      pollSCM '* * * * *'
-    }
-
-    parameters {
-        string(name: 'BRANCH', defaultValue: 'dev', description: 'Which branch should I build?')
-    }
-
     options {
         timestamps()
         disableConcurrentBuilds(abortPrevious: true)

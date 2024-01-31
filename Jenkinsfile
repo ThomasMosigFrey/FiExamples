@@ -1,21 +1,55 @@
 pipeline {
     agent {
-            label 'linux'
+        label 'linux'
     }
+
+    triggers {
+      pollSCM '* * * * *'
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'dev', description: 'Which branch should I build?')
+    }
+
+    options {
+        timestamps()
+        disableConcurrentBuilds(abortPrevious: true)
+        timeout(time: 1, unit: 'HOURS')
+    }
+
     stages {
-        stage ('compile/test') {
+        stage('build dev JeeExamples') {
             steps {
-                withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven393', mavenSettingsConfig: '', traceability: true) {
+                // build
+                withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
                     sh "mvn clean install"
+                }
+                recordIssues(tools: [mavenConsole()])
+            }
+        }
+    }
+
+    post {
+        aborted {
+            // Email senden
+            script {
+                try {
+                    echo "email sent"
+                    throw new Exception()
+                } catch(Exception e) {
+                    e.printStackTrace()
+                } finally {
+                    echo "noch mal gut gegangen, ... oder nicht?"
                 }
             }
         }
-        stage ('deploy') {
-            steps {
-                withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven393', mavenSettingsConfig: '', traceability: true) {
-                    sh "mvn deploy -DskipTests"
-                }
-            }
+        success {
+            // clean ws
+            cleanWs notFailBuild: true
+        }
+        failure {
+            // Log Files an server senden
+            echo "log files transmitted"
         }
     }
 }

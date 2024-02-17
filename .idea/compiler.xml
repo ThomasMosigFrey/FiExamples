@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="FiCommon" />
+        <module name="FinanceControl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="FiAsyncClient" target="11" />
       <module name="FiClient" target="11" />
+      <module name="FiCommon" target="11" />
       <module name="FiServer" target="11" />
     </bytecodeTargetLevel>
   </component>

@@ -17,10 +17,12 @@ pipeline {
                     // build
                     withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
                         try {
-                            sh "mvn clean Install"
+                            sh "mvn clean install"
                         } catch(Throwable e) {
                             echo "error occurred"
                             throw e
+                        } finally {
+                            echo "the sh step was executed"
                         }
                     }
                     recordIssues(tools: [mavenConsole()])

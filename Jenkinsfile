@@ -28,35 +28,6 @@ pipeline {
     }
 
     post {
-        aborted {
-            // Email senden
-            script {
-                while(true) {
-                    # steps
-                }
-
-                for(int i = 0; i < 100; ++i) {
-                    # steps
-                }
-
-                if(true) {
-                    # step
-                } else {
-                    # steps
-                }
-
-                try {
-                    sh "exit 1"
-
-                } catch(Throwable e) {
-                    e.printStackTrace()
-                } finally {
-                    echo "noch mal gut gegangen, ... oder nicht?"
-                }
-            }
-
-
-        }
         success {
             // clean ws
             cleanWs notFailBuild: true

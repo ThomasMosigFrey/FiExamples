@@ -19,6 +19,8 @@ pipeline {
                         try {
                             sh "mvn clean Install"
                         } catch(Throwable e) {
+                            echo "error occurred"
+                            throw e
                         }
                     }
                     recordIssues(tools: [mavenConsole()])

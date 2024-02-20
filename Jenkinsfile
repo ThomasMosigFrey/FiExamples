@@ -13,11 +13,16 @@ pipeline {
     stages {
         stage('build dev JeeExamples') {
             steps {
-                // build
-                withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
-                    sh "mvn clean install"
+                script {
+                    // build
+                    withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
+                        try {
+                            sh "mvn clean Install"
+                        } catch(Throwable e) {
+                        }
+                    }
+                    recordIssues(tools: [mavenConsole()])
                 }
-                recordIssues(tools: [mavenConsole()])
             }
         }
     }
@@ -26,15 +31,31 @@ pipeline {
         aborted {
             // Email senden
             script {
+                while(true) {
+                    # steps
+                }
+
+                for(int i = 0; i < 100; ++i) {
+                    # steps
+                }
+
+                if(true) {
+                    # step
+                } else {
+                    # steps
+                }
+
                 try {
-                    echo "email sent"
-                    throw new Exception()
-                } catch(Exception e) {
+                    sh "exit 1"
+
+                } catch(Throwable e) {
                     e.printStackTrace()
                 } finally {
                     echo "noch mal gut gegangen, ... oder nicht?"
                 }
             }
+
+
         }
         success {
             // clean ws

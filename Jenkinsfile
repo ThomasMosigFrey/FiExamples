@@ -13,9 +13,9 @@ pipeline {
     stages {
         stage('build dev JeeExamples') {
             steps {
-                script {
-                    // build
-                    withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
+                // build
+                withMaven(globalMavenSettingsConfig: 'ae44f8b3-3bf7-4624-8e87-74659f3f817f', maven: 'maven3', traceability: true) {
+                    script {
                         try {
                             sh "mvn clean install"
                         } catch(Throwable e) {
@@ -25,8 +25,8 @@ pipeline {
                             echo "the sh step was executed"
                         }
                     }
-                    recordIssues(tools: [mavenConsole()])
                 }
+                recordIssues(tools: [mavenConsole()])
             }
         }
     }
